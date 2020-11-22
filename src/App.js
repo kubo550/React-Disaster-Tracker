@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+// * todo import { useState } from "react";
+import { useQuery } from "react-query";
+import { fetchNasaData, params } from "./api";
+import Loading from "./components/Loading";
+import Map from "./components/Map";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App = () => {
+  // * todo const [showCovid, setShowCodiv] = useState(true);
+
+  const { data, isLoading } = useQuery("fetchNasaData", fetchNasaData, params);
+
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <>
+      <Map data={data} center={[39, -104]} zoom={4} />
+    </>
   );
-}
+};
 
 export default App;
